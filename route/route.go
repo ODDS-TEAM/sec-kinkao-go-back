@@ -16,5 +16,5 @@ func Init(e *echo.Echo) {
 		SellerUCol: db.SellerUCol,
 	}
 
-	e.GET("/sellerusers", a.GetSellerUsers)
+	e.POST("/register", a.Register)
 }
