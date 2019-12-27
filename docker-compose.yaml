@@ -1,0 +1,40 @@
+version: '3.3'
+
+services:
+  api:
+    container_name: 'sec-kinkao-goback'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    image: goback:1
+    environment:
+      - TZ=Asia/Bangkok
+      - DB_HOST
+      - DB_NAME
+      - DB_SELLERUSERS_COL
+      - API_PORT
+    ports:
+      - "1323:1323"
+    networks: 
+      - backend
+
+  db:
+    container_name: 'sec-kinkao-db'
+    image: 'mongo'
+    volumes:
+      - sec_kinkao_db:/data/db
+    environment:
+      - TZ=Asia/Bangkok
+    ports:
+      - '27017:27017'
+    networks: 
+      - backend
+
+volumes:
+  sec_kinkao_db:
+
+networks: 
+  backend:
+    external: true
