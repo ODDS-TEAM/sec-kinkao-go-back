@@ -2,10 +2,9 @@ package main
 
 import (
 	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
-	"github.com/xesina/golang-echo-realworld-example-app/handler"
 	"gitlab.odds.team/internship/sec-kinkao/goback/config"
+	"gitlab.odds.team/internship/sec-kinkao/goback/handlers"
 	"gopkg.in/mgo.v2"
 )
 
@@ -14,18 +13,18 @@ func main() {
 	s := config.Spec()
 
 	e.Logger.SetLevel(log.ERROR)
-	e.Use(
-		middleware.CORS(),
-		middleware.Recover(),
-		middleware.Logger(),
-	)
+	// e.Use(
+	// 	middleware.CORS(),
+	// 	middleware.Recover(),
+	// 	middleware.Logger(),
+	// )
 
 	db, err := mgo.Dial("localhost")
 	if err != nil {
 		e.Logger.Fatal(err)
 	}
 
-	h := &handler.Handler{DB: db}
+	h := &handlers.Handler{DB: db}
 
 	e.POST("/login", h.Login)
 
