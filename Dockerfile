@@ -8,6 +8,6 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN go build -o server .
+RUN go build -o main .
 EXPOSE 1323
-CMD ["./server"]
+CMD ["./main"]
