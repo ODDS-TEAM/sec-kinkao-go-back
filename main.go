@@ -1,13 +1,12 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
+	"github.com/xesina/golang-echo-realworld-example-app/handler"
 	"gitlab.odds.team/internship/sec-kinkao/goback/config"
-	"gitlab.odds.team/internship/sec-kinkao/goback/route"
+	"gopkg.in/mgo.v2"
 )
 
 func main() {
@@ -21,11 +20,14 @@ func main() {
 		middleware.Logger(),
 	)
 
-	e.GET("/_ah/health", func(c echo.Context) error {
-		return c.String(http.StatusOK, "sec kinkao goback : ok!")
-	})
+	db, err := mgo.Dial("localhost")
+	if err != nil {
+		e.Logger.Fatal(err)
+	}
 
-	route.Init(e)
+	h := &handler.Handler{DB: db}
+
+	e.POST("/login", h.Login)
 
 	e.Logger.Fatal(e.Start(s.APIPort))
 }
