@@ -17,6 +17,8 @@ services:
       - API_PORT
     ports:
       - "1323:1323"
+    volumes:
+      - ./:/app
     networks: 
       - backend
 
